@@ -1,18 +1,41 @@
+@use "_variables.scss";
+
 @font-face {
-  font-family: "NunitoSans";
-  src: url("./assets/fonts/NunitoSans-Regular.ttf");
+  font-family: "Roboto";
+  src: url("./assets/fonts/Roboto-Regular.ttf");
   font-weight: 400;
   font-style: normal;
 }
 
 @font-face {
-  font-family: "NunitoSans";
-  src: url("./assets/fonts/NunitoSans-Bold.ttf");
+  font-family: "Roboto";
+  src: url("./assets/fonts/Roboto-Light.ttf");
+  font-weight: 200;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Roboto";
+  src: url("./assets/fonts/Roboto-Bold.ttf");
   font-weight: 700;
   font-style: normal;
 }
 
 body {
-  font-family: "NunitoSans", sans-serif;
+  font-family: "Roboto", sans-serif;
   font-size: 16px;
+  font-weight:200;
+  color: variables.$color-black;
 }
+
+h1,h2,h3,h4 {
+  font-weight: 200;
+}
+
+a {
+  color: variables.$color-black;
+  :hover {
+    color: variables.$color-gold;
+  }
+}
+
