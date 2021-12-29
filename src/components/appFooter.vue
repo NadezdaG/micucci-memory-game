@@ -13,7 +13,7 @@
 				>Mucicci</a
 			>.
 		</div>
-	</footer>
+	</footer> 
 </template>
 <style lang="scss">
     @use "../assets/scss/reset.scss";
