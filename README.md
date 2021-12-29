@@ -1,5 +1,5 @@
-This project is created for learning basic vue.
-Weather app, with city selector and card for each selected city.
+This project is created for micucci.co.uk.
+Simple memory game using Woocommerce API to get products.
 
 ## Project setup
 ```
