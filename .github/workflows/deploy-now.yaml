@@ -36,6 +36,8 @@ jobs:
         env:
           CI: true
           SITE_URL: ${{ steps.project.outputs.site-url }}
+          VUE_APP_KEY: ck_b9dcaa7190a78f23d97090a6327ccf6acddb091f
+          VUE_APP_SECRET: cs_22f9fc28327467195bcbeff7ce65c65ccd82dc97
       - name: Deploy build
         if: ${{ steps.project.outputs.deployment-enabled == 'true' }}
         uses: ionos-deploy-now/deploy-to-ionos-action@v1
