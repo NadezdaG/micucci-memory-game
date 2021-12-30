@@ -12,8 +12,8 @@
 			<p>
 				Go and buy:
 				<a
-					href="{{permalink}}"
-					title="{{name}}"
+					:href="permalink"
+					:title="name"
 					target="_blank"
 					>{{name}}</a
 				>
@@ -65,6 +65,7 @@ export default {
 	width: 100%;
 	height: 100%;
 	transition: opacity 3s;
+	transition-delay: 2s;
 	h2 {
 		text-align: center;
 		padding-bottom: 1em;
