@@ -20,10 +20,7 @@ export default {
   data() {
       return {
       }
-  },
-
-  methods: {
-  },
+  }
 };
 </script>
 
@@ -41,6 +38,8 @@ export default {
 		img {
 			width: 100%;
 			height: auto;
+    max-height: 100%;
+    max-width: 100%;
 		}
 		h2 {
 			font-size: 0.8em;

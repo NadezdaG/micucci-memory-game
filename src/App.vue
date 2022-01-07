@@ -6,7 +6,7 @@
 		:permalink="this.matchCard.permalink"
 		:image="this.matchCard.image"
 	></popup>
-	<appHeader></appHeader>
+	<appHeader :activeCategory="this.category"></appHeader>
 	<section>
 		<spinner :loading="this.loading"></spinner>
 		<div class="container cards">
@@ -44,10 +44,21 @@ export default {
 			memoryCards: [],
 			flippedCards: [],
 			matchCard: {},
+			category: 25
 		};
 	},
 	watch: {},
 	methods: {
+		changeCategory(cat) {
+			console.log('cat change');
+			this.loading = true;
+			this.category = cat;
+			this.cards = [];
+			this.memoryCards = [];
+			this.flipperCards=[];
+			this.loadCards();
+			console.log(this.category );
+		},
 		loadCards() {
 			const api = new WooCommerceRestApi({
 				url: "https://www.micucci.co.uk",
@@ -57,7 +68,7 @@ export default {
 			});
 			api.get("products", {
 				per_page: 100,
-				on_sale: true,
+				category: this.category,
 			})
 				.then((response) => {
 					const shuffled = response.data.sort(
