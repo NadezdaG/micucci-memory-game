@@ -10,7 +10,7 @@
 			>
 			for
 			<a href="https://www.micucci.co.uk" title="" target="_blank"
-				>Mucucci</a
+				>Micucci</a
 			>.
 		</div>
 	</footer> 
