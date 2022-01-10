@@ -70,11 +70,9 @@ header {
 	grid-auto-rows: 1fr;
 	grid-template-columns: 1fr;
 	grid-template-rows: auto auto;
-	gap: 1em;
 	grid-template-areas: "logo" "menu";
-	margin-bottom: 2em;
 	@media all and (max-width: 767px) {
-justify-items: center;
+		justify-items: center;
 	}
 	@media all and (min-width: 768px) {
 		grid-template-columns: 1fr auto;
@@ -83,15 +81,15 @@ justify-items: center;
 	}
 	> img {
 		grid-area: logo;
-		max-width:120px;
-		height:auto;
+		max-width: 120px;
+		height: auto;
 	}
 	> div {
 		grid-area: menu;
 	}
 }
 h1 {
-	text-align:center;
+	text-align: center;
 	margin-bottom: 1em;
 	@media all and (min-width: 768px) {
 		text-align: right;
@@ -104,13 +102,13 @@ ul {
 	flex-direction: row;
 	flex-wrap: wrap;
 	justify-content: center;
-	padding:0;
-	margin:0;
+	padding: 0;
+	margin: 0;
 	gap: 0.5em;
 	margin-top: 1em;
 	@media all and (min-width: 768px) {
-flex-wrap: nowrap;
-margin-top:0;
+		flex-wrap: nowrap;
+		margin-top: 0;
 	}
 	li {
 		padding: 10px;
@@ -119,8 +117,8 @@ margin-top:0;
 		font-size: 1em;
 		background-color: #efefef;
 		@media all and (min-width: 768px) {
-font-size: 0.8em;
-padding: 5px 10px;
+			font-size: 0.8em;
+			padding: 5px 10px;
 		}
 		cursor: pointer;
 		&:hover,

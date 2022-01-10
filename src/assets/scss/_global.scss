@@ -12,15 +12,29 @@ body {
 #app {
   height: 100%;
   padding: 1em;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
+  display: grid; 
+  grid-template-columns: 1fr; 
+  grid-template-rows: auto 1fr auto; 
+  gap: 0px 0px; 
+  grid-template-areas: 
+    "HEADER"
+    "CONTENT"
+    "FOOTER"; 
 }
-
+header {
+  grid-area: HEADER;
+}
+section {
+  grid-area:CONTENT;
+  display:flex;
+  justify-content: center;
+  align-items: center;
+  gap:0.5em;
+}
 footer {
   color: white;
+  grid-area: FOOTER;
   margin-top: auto;
-  padding-top: 0.5em;
   justify-self: flex-end;
   font-size: 0.8em;
   color: variables.$color-black;
