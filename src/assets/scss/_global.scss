@@ -14,28 +14,18 @@ body {
   padding: 1em;
   display: grid; 
   grid-template-columns: 1fr; 
-  grid-template-rows: auto 1fr auto; 
-  gap: 0px 0px; 
-  grid-template-areas: 
-    "HEADER"
-    "CONTENT"
-    "FOOTER"; 
-}
-header {
-  grid-area: HEADER;
+  grid-template-rows: auto 1fr; 
+  gap: 20px; 
+  @media all and (min-width: 768px) {
+    grid-template-columns: 300px auto; 
+    grid-template-rows: 1fr; 
+  }
 }
 section {
-  grid-area:CONTENT;
+  //grid-area:CONTENT;
   display:flex;
   justify-content: center;
   align-items: center;
   gap:0.5em;
-}
-footer {
-  color: white;
-  grid-area: FOOTER;
-  margin-top: auto;
-  justify-self: flex-end;
-  font-size: 0.8em;
-  color: variables.$color-black;
+  position:relative;
 }

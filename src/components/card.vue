@@ -7,7 +7,7 @@
 		}"
 	>
 		<div class="back shadow">
-			<img v-bind:src="card.image" />
+			<img :src="card.image" />
 		</div>
 		<div class="front shadow"></div>
 	</div>
