@@ -12,20 +12,20 @@ body {
 #app {
   height: 100%;
   padding: 1em;
-  display: grid; 
-  grid-template-columns: 1fr; 
-  grid-template-rows: auto 1fr; 
-  gap: 20px; 
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: auto 1fr;
+  gap: 20px;
   @media all and (min-width: 768px) {
-    grid-template-columns: 300px auto; 
-    grid-template-rows: 1fr; 
+    grid-template-columns: 300px auto;
+    grid-template-rows: 1fr;
   }
 }
 section {
   //grid-area:CONTENT;
-  display:flex;
+  display: flex;
   justify-content: center;
   align-items: center;
-  gap:0.5em;
-  position:relative;
+  gap: 0.5em;
+  position: relative;
 }
