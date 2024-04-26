@@ -1,6 +1,8 @@
 This project is created for micucci.co.uk.
 Simple memory game using Woocommerce API to get products.
 
+NVM 16
+
 ## Project setup
 ```
 yarn install

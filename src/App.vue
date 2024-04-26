@@ -144,9 +144,9 @@ export default {
   methods: {
     loadData(category) {
       const api = new WooCommerceRestApi({
-        url: "https://www.micucci.co.uk",
-        consumerKey: process.env.VUE_APP_KEY,
-        consumerSecret: process.env.VUE_APP_SECRET,
+        url: "https://www.micucci.store",
+        consumerKey: "ck_c06b14c56c2518d31a1230e36eba267f788b0487",
+        consumerSecret: "cs_421bbefcd8fc67a2b3d8870874842e89f70f6b42",
         version: "wc/v3",
       });
       api
