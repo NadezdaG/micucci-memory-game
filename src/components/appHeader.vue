@@ -123,7 +123,7 @@ ul {
 		cursor: pointer;
 		&:hover,
 		&.active {
-			background-color: #111;
+			background-color: #053723;
 			color: white;
 		}
 	}
