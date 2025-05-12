@@ -5,7 +5,7 @@
         id="Layer_2"
         xmlns="http://www.w3.org/2000/svg"
         viewBox="0 0 231.43 66.47"
-        style="width: 120px"
+        style="width: 70px"
       >
         <g id="Layer_1-2" data-name="Layer_1">
           <g>
@@ -129,9 +129,9 @@ export default {
       matchCard: {},
       category: 21,
       count: {
-        simple: 4,
-        medium: 8,
-        hard: 12,
+        simple: 12,
+        medium: 24,
+        hard: 36,
       },
       dificulty: "hard",
     };
@@ -145,38 +145,55 @@ export default {
     },
   },
   methods: {
-    loadData(category) {
-      console.log("loaded");
+    async loadData(category) {
+      console.log("Loading Variations...");
+
       const api = new WooCommerceRestApi({
         url: "https://www.bijoure.com",
         consumerKey: "ck_6455f743ae39dcc151f659bf21b90856ebea7c4a",
         consumerSecret: "cs_baf9feee3c62284a9054d08f17a95d46562df7c7",
         version: "wc/v3",
+        axiosConfig: {
+    headers: {
+      "User-Agent": undefined, // Remove the header
+    },
+  },
       });
-      api
-        .get("products", {
+
+      try {
+        // Fetch products with variations
+        const response = await api.get("products", {
           per_page: 100,
           category: category,
-        })
-        .then((response) => {
-          console.log("downloacded");
-          const arr = [];
-          response.data.forEach((item) => {
-            arr.push({
-              id: item.id,
-              name: item.name,
-              permalink: item.permalink,
-              image: item.images[0]["src"],
+        });
+
+        let variations = [];
+        const productIds = response.data.map((item) => item.id);
+
+        for (const productId of productIds) {
+          const productVariations = await api.get(`products/${productId}/variations`, {
+            per_page: 100,
+          });
+
+          productVariations.data.forEach((variation) => {
+            variations.push({
+              id: variation.id,
+              name: variation.name || variation.attributes.map(attr => attr.option).join(" - "),
+              permalink: variation.permalink,
+              image: variation.image.src || "",
               isFlipped: false,
               isMatched: false,
             });
           });
-          localStorage.setItem("memoryCards-" + category, JSON.stringify(arr));
-          this.shuffleMemoryCards(arr);
-        })
-        .catch((error) => {
-          console.log(error.response.data);
-        });
+        }
+
+        // Save to localStorage
+        localStorage.setItem("memoryCards-" + category, JSON.stringify(variations));
+        this.shuffleMemoryCards(variations);
+
+      } catch (error) {
+        console.log("Error loading variations:", error.response ? error.response.data : error.message);
+      }
     },
 
     reloadCards() {
@@ -366,15 +383,15 @@ export default {
 aside {
   display: grid;
   grid-template: auto auto 1fr / auto;
-  justify-items: center;
-  justify-content: center;
+  justify-items: flex-start;
+  justify-content: flex-start;
   > img {
     max-width: 200px;
     height: auto;
   }
   h1 {
     text-align: center;
-    margin: 1em 0;
+    margin: 0.3em 0 1em;
     text-transform: uppercase;
   }
   footer {
