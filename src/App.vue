@@ -233,6 +233,7 @@ export default {
 };
 </script>
 
+
 <style lang="scss">
 @use "./assets/scss/reset.scss";
 @use "./assets/scss/_variables.scss";
@@ -316,14 +317,14 @@ export default {
   grid-template: repeat(6, 1fr) / repeat(6, 1fr);
   aspect-ratio: 6/6;
   gap: 10px;
-  width: 100%;
+  width: 100vw;
   height: auto;
 
   &.hard {
     grid-template: repeat(8, 1fr) / repeat(4, 1fr);
     width: 100%;
     aspect-ratio: unset;
-    height: 100%;
+    height: auto;
     @media all and (min-width: 769px) {
       grid-template: repeat(6, 1fr) / repeat(6, 1fr);
       width: auto;
@@ -334,21 +335,18 @@ export default {
   //@media all and (min-width: 769px), (max-width: 768px) and (orientation: landscape) {
   &.simple {
     grid-template: repeat(4, 1fr) / repeat(3, 1fr);
-    aspect-ratio: 3/4;
-    width: auto;
-    height: 100%;
+    width: 100%;
+    height: auto;
     @media all and (min-width: 769px) {
       grid-template: repeat(3, 1fr) / repeat(4, 1fr);
       aspect-ratio: 4/3;
-      width: 100%;
-      height: auto;
     }
   }
   &.medium {
-    grid-template: repeat(6, 1fr) / repeat(4, 1fr);
+    grid-template: repeat(6, 1fr) / repeat(3, 1fr);
     aspect-ratio: 4/6;
-    width: autp;
-    height: 100%;
+    width: 100%;
+    height: auto;
     @media all and (min-width: 769px) {
       grid-template: repeat(4, 1fr) / repeat(6, 1fr);
       aspect-ratio: 6/4;
@@ -369,7 +367,7 @@ aside {
   }
   h1 {
     text-align: center;
-    margin: 1em 0;
+    margin: 0.3em 0 1em;
     text-transform: uppercase;
   }
   footer {
@@ -400,7 +398,7 @@ ul.dificulty {
     font-size: 0.8em;
     &:hover,
     &.active {
-      background-color: #111;
+      background-color: #053723;
       color: white;
     }
 
@@ -436,7 +434,7 @@ ul.category {
     cursor: pointer;
     &:hover,
     &.active {
-      background-color: #111;
+      background-color: #053723;
       color: white;
     }
 
