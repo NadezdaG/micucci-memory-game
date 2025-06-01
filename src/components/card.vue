@@ -66,6 +66,7 @@ export default {
 		top: 0;
 		left: 0;
 		width: 100%;
+        aspect-ratio: 1 / 1;
 		height: 100%;
 		overflow: hidden;
 	}
