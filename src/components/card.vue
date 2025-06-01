@@ -33,6 +33,7 @@ export default {
 	-moz-perspective: 1000;
 	-o-perspective: 1000;
 	perspective: 1000;
+    aspect-ratio: 1 / 1;
 	cursor: pointer;
 	img {
 		width: 100%;

@@ -96,8 +96,9 @@
     <div class="container cards" :class="this.dificulty">
       <card
         ref="card"
-        v-for="(card, index) in this.memoryCards"
-        v-bind:key="index"
+        v-for="card in this.memoryCards"
+        :key="card.id"
+        :data-id="card.id"
         :card="card"
         @click="flipCard(card)"
       >
@@ -112,7 +113,6 @@ import popup from "./components/popup.vue";
 import card from "./components/card.vue";
 
 import WooCommerceRestApi from "@woocommerce/woocommerce-rest-api";
-const _ = require("lodash");
 
 export default {
   name: "App",
@@ -146,7 +146,7 @@ export default {
   },
   methods: {
     async loadData(category) {
-      console.log("Loading Variations...");
+      console.log("Loading products and variations...");
 
       const api = new WooCommerceRestApi({
         url: "https://www.bijoure.com",
@@ -154,45 +154,64 @@ export default {
         consumerSecret: "cs_baf9feee3c62284a9054d08f17a95d46562df7c7",
         version: "wc/v3",
         axiosConfig: {
-    headers: {
-      "User-Agent": undefined, // Remove the header
-    },
-  },
+          headers: { "User-Agent": undefined },
+        },
       });
 
       try {
-        // Fetch products with variations
         const response = await api.get("products", {
           per_page: 100,
-          category: category,
+          category,
         });
 
-        let variations = [];
-        const productIds = response.data.map((item) => item.id);
+        let allCards = [];
 
-        for (const productId of productIds) {
-          const productVariations = await api.get(`products/${productId}/variations`, {
-            per_page: 100,
-          });
+        for (const product of response.data) {
+          const productId = product.id;
 
-          productVariations.data.forEach((variation) => {
-            variations.push({
-              id: variation.id,
-              name: variation.name || variation.attributes.map(attr => attr.option).join(" - "),
-              permalink: variation.permalink,
-              image: variation.image.src || "",
-              isFlipped: false,
-              isMatched: false,
-            });
-          });
+          // Fetch all variations for this product
+          const variationResponse = await api.get(
+            `products/${productId}/variations`,
+            {
+              per_page: 100,
+            }
+          );
+
+          const variationCards = variationResponse.data
+            .map((variation) => {
+              const variationName =
+                variation.name ||
+                variation.attributes.map((attr) => attr.option).join(" - ");
+              const imageSrc =
+                variation.image?.src || product.images?.[0]?.src || "";
+
+              if (!imageSrc) return null;
+
+              return {
+                id: product.id + "-" + variation.id,
+                name: variationName || product.name,
+                permalink: variation.permalink || product.permalink,
+                image: imageSrc,
+                isFlipped: false,
+                isMatched: false,
+              };
+            })
+            .filter(Boolean); // Remove nulls
+
+          allCards.push(...variationCards);
         }
 
-        // Save to localStorage
-        localStorage.setItem("memoryCards-" + category, JSON.stringify(variations));
-        this.shuffleMemoryCards(variations);
-
+        // Save and shuffle
+        localStorage.setItem(
+          "memoryCards-" + category,
+          JSON.stringify(allCards)
+        );
+        this.shuffleMemoryCards(allCards);
       } catch (error) {
-        console.log("Error loading variations:", error.response ? error.response.data : error.message);
+        console.error(
+          "Error loading data:",
+          error.response?.data || error.message
+        );
       }
     },
 
@@ -206,8 +225,12 @@ export default {
     },
 
     shuffleMemoryCards(array) {
-      array = array.slice(0, this.count[this.dificulty]);
-      this.memoryCards = _.shuffle(array.concat(_.cloneDeep(array)));
+      array = array.slice(0, this.count[this.dificulty] / 2);
+      console.log(array);
+      // make a new array, where each card from 'array' is duplicated
+
+      this.memoryCards = [...array, ...array.map((card) => ({ ...card }))];
+      console.log(this.memoryCards);
       this.loading = false;
     },
 
@@ -223,10 +246,8 @@ export default {
     },
 
     flipCard(card) {
-      if (card.isMatched === true) {
-        this.matchCard = card;
-        this.$refs.popup.openPopup();
-        return;
+      if (card.isMatched || this.flippedCards.includes(card)) {
+        return; // Ignore if card is already matched or flipped
       }
       if (this.flippedCards.length < 2) {
         card.isFlipped = !card.isFlipped;
@@ -241,7 +262,7 @@ export default {
     },
 
     match() {
-      if (this.flippedCards[0].name === this.flippedCards[1].name) {
+      if (this.flippedCards[0].id === this.flippedCards[1].id) {
         this.matchCard = this.flippedCards[0];
         this.flippedCards.forEach((card) => (card.isMatched = true));
         this.flippedCards = [];
@@ -338,14 +359,14 @@ export default {
   grid-template: repeat(6, 1fr) / repeat(6, 1fr);
   aspect-ratio: 6/6;
   gap: 10px;
-  width: 100%;
+  width: 100vw;
   height: auto;
 
   &.hard {
     grid-template: repeat(8, 1fr) / repeat(4, 1fr);
     width: 100%;
     aspect-ratio: unset;
-    height: 100%;
+    height: auto;
     @media all and (min-width: 769px) {
       grid-template: repeat(6, 1fr) / repeat(6, 1fr);
       width: auto;
@@ -356,21 +377,18 @@ export default {
   //@media all and (min-width: 769px), (max-width: 768px) and (orientation: landscape) {
   &.simple {
     grid-template: repeat(4, 1fr) / repeat(3, 1fr);
-    aspect-ratio: 3/4;
-    width: auto;
-    height: 100%;
+    width: 100%;
+    height: auto;
     @media all and (min-width: 769px) {
       grid-template: repeat(3, 1fr) / repeat(4, 1fr);
       aspect-ratio: 4/3;
-      width: 100%;
-      height: auto;
     }
   }
   &.medium {
-    grid-template: repeat(6, 1fr) / repeat(4, 1fr);
+    grid-template: repeat(6, 1fr) / repeat(3, 1fr);
     aspect-ratio: 4/6;
-    width: autp;
-    height: 100%;
+    width: 100%;
+    height: auto;
     @media all and (min-width: 769px) {
       grid-template: repeat(4, 1fr) / repeat(6, 1fr);
       aspect-ratio: 6/4;
