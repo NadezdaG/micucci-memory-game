@@ -1,0 +1,25 @@
+@use "_variables.scss";
+
+@use "_typography.scss";
+
+html,
+body {
+  height: 100%;
+}
+body {
+  background-color: var(--color-white);
+  min-height: 100%;
+}
+
+#app {
+  height: 100%;
+  padding: 1em;
+  display: flex;
+  flex-wrap: nowrap;
+  flex-direction: column;
+  width: 100%;
+  gap: 30px;
+  @media all and (min-width: 768px) {
+    flex-direction: row;
+  }
+}

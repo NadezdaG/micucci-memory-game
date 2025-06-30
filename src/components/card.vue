@@ -13,20 +13,19 @@
 	</div>
 </template>
 
-<script>
-export default {
-	name: "card",
-	props: ["card"],
-	data() {
-		return {};
-	},
-};
+<script setup>
+import { defineProps, toRef } from 'vue';
+const props = defineProps({
+    card: {
+        type: Object,
+        required: true,
+    },
+});
+const card = toRef(props, 'card');
 </script>
 
 <style lang="scss">
-@use "../assets/scss/reset.scss";
-@use "../assets/scss/_variables.scss";
-@use "../assets/scss/_global.scss";
+
 .card {
 	position: relative;
 	-webkit-perspective: 1000;
@@ -72,7 +71,7 @@ export default {
 	}
 	.front {
 		width: 100%;
-		background: variables.$color-gold;
+		background: var(--color-gold);
 	}
 	.back {
 		background-color: white;

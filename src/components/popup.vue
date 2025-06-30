@@ -12,7 +12,7 @@
 			<p>
 				Go and buy:
 				<a
-					:href="permalink"
+					:href="url"
 					:title="name"
 					target="_blank"
 					>{{name}}</a
@@ -25,7 +25,7 @@
 <script>
 export default {
   name: "popup",
-  props: ['id','name','permalink','image'],
+  props: ['id','name','url','image'],
   data() {
       return {
         popupOpen: false,
@@ -45,11 +45,6 @@ export default {
 </script>
 
 <style lang="scss">
-@use "../assets/scss/reset.scss";
-@use "../assets/scss/_variables.scss";
-@use "../assets/scss/_global.scss";
-
-
 .popup {
 	display: none;
 	flex-direction: column;
