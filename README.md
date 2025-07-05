@@ -3,6 +3,9 @@ Simple memory game using Woocommerce API to get products.
 
 NVM 16
 
+You have to update product list manually.
+Run th server, put [] in brnd's json file. Inc onsole you will see it's fetching products from the API. Copy the object to the file.
+
 ## Project setup
 ```
 yarn install

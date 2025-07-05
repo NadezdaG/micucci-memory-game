@@ -30,12 +30,23 @@
       >
         <ul>
           <li v-for="(id, name) in settings.brands[brand].categories" :key="id">
-            <button @click="changeCategory(id)">
+            <button
+              @click="changeCategory(id)"
+              :class="{ active: selectedCategory === id }"
+            >
               {{ name }}
             </button>
           </li>
           <li>
-            <button @click="shuffleCards()">All</button>
+            <button
+              @click="
+                selectedCategory = false;
+                shuffleCards();
+              "
+              :class="{ active: !selectedCategory }"
+            >
+              All
+            </button>
           </li>
         </ul>
       </div>
@@ -140,6 +151,7 @@ const changeCategory = (category) => {
 };
 
 const shuffleCards = () => {
+  mobileNav.value = false; // close mobile nav on shuffle
   let productsArray = _.cloneDeep(products.value);
   console.log("start shuffle", productsArray);
   // take copy of products array, dosconnected
@@ -189,16 +201,16 @@ const handleCardCLick = (card) => {
 };
 
 onMounted(() => {
-  if (localStorage.getItem("hproducts" + brand.value)) {
-    products.value = JSON.parse(
-      localStorage.getItem("hproducts" + brand.value)
-    );
-    console.log("products loaded from storage", products.value);
-    shuffleCards();
-  } else {
+  loading.value = true;
+  error.value = null;
+
+  // load objecr from json file, brand.value
+  products.value = require("./assets/jsons/" + brand.value + ".json");
+
+  // if it's empty, fetch from API
+  if (!products.value || products.value.length === 0) {
+    console.log("products not found in file, fetching from API");
     // wait for fetchProducts() and then set products in localstorage
-    loading.value = true;
-    error.value = null;
 
     // Get brand configuration
     const brandConfig = settings.value.brands[brand.value];
@@ -207,11 +219,15 @@ onMounted(() => {
       .then((fetchedProducts) => {
         products.value = fetchedProducts;
         console.log("products loaded from API", products.value);
-        localStorage.setItem(
-          "hproducts" + brand.value,
-          JSON.stringify(products.value)
-        );
-        shuffleCards();
+        if (products.value) {
+          localStorage.setItem(
+            "lproducts" + brand.value,
+            JSON.stringify(products.value)
+          );
+          shuffleCards();
+        } else {
+          throw new Error("No products found");
+        }
       })
       .finally(() => {
         loading.value = false;
@@ -220,6 +236,10 @@ onMounted(() => {
         error.value = err.response?.data?.message || err.message;
         console.error("Error fetching products:", err);
       });
+  } else {
+    console.log("products loaded from localstorage", products.value);
+    loading.value = false;
+    shuffleCards();
   }
 });
 </script>
